@@ -7,8 +7,8 @@ class NoteRepository {
 
     private val noteDao = NoteDao()
 
-    fun createNote(title: String, idSection: String) {
-        noteDao.insertNote(title, idSection)
+    fun createNote(content: String, idSection: String, type: Int = 0) {
+        noteDao.insertNote(content, idSection, type)
     }
 
     fun searchAllNotes(idSection: String): MutableList<Note> {

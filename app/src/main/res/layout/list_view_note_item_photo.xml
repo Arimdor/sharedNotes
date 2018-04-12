@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:background="@color/cardview_light_background">
+
+    <ImageView
+        android:id="@+id/imgNotePhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/lblNotePhotoDate"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="11/04/2018"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgNotePhoto"
+        app:layout_constraintEnd_toEndOf="@+id/imgNotePhoto" />
+</android.support.constraint.ConstraintLayout>

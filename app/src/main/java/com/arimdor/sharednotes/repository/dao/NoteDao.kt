@@ -9,10 +9,10 @@ class NoteDao {
 
     private val realm = MyApplication.realm
 
-    fun insertNote(content: String, idSection: String): Boolean {
+    fun insertNote(content: String, idSection: String, type: Int = 0): Boolean {
         return try {
             val section = realm.where(Section::class.java).equalTo("id", idSection).findFirst()
-            val note = Note(content)
+            val note = Note(content, type)
             realm.beginTransaction()
             realm.copyToRealm(section)
             section!!.notes.add(note)

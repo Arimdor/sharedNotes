@@ -7,7 +7,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:alpha="100"
         app:cardElevation="5dp">
 
@@ -24,6 +24,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/noteOptions"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -33,8 +35,8 @@
 
             <ImageView
                 android:id="@+id/noteOptions"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
@@ -47,16 +49,16 @@
                 android:id="@+id/lblCountNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="3dp"
                 android:text="TextView"
-                android:textSize="8sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toEndOf="@+id/imgSection"
                 app:layout_constraintTop_toTopOf="@+id/imgSection" />
 
             <ImageView
                 android:id="@+id/imgSection"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_marginTop="3dp"
                 app:layout_constraintStart_toStartOf="@+id/lblBookTitle"
                 app:layout_constraintTop_toBottomOf="@+id/lblBookTitle"
@@ -68,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="TextView"
-                android:textSize="8sp"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="10sp"
                 app:layout_constraintStart_toEndOf="@+id/lblCountNotes"
                 app:layout_constraintTop_toTopOf="@+id/lblCountNotes" />
         </android.support.constraint.ConstraintLayout>

@@ -36,7 +36,7 @@ class SectionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lblTitle.text = sections[position].title
         holder.lblDate.text = dateFormat.format(sections[position].creationDate)
-        holder.lblResumen.text = "Lorem ipsum dolor sit amet, consectetur adipiscing \n elit, lorem ipsum dolor sed do eiusmod..."
+        holder.lblResumen.text = "Lorem ipsum dolor sit amet impera \n adipiscing elit, lorem ipsum dolor \n sed do eiusmod..."
 
         if (position > lastPosition) {
             val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_scrolling)
