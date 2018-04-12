@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/edit_board"
-        android:title="Edit book" />
+        android:title="Editar libreta" />
     <item
         android:id="@+id/delete_board"
-        android:title="Delete book" />
+        android:title="Eliminar libreta" />
 </menu>

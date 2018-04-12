@@ -5,6 +5,6 @@
         android:id="@+id/edit_section"
         android:title="Editar sección" />
     <item
-        android:id="@+id/delete_note"
+        android:id="@+id/delete_section"
         android:title="Borrar sección" />
 </menu>

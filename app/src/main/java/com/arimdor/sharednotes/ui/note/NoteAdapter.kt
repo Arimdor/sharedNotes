@@ -1,6 +1,7 @@
 package com.arimdor.sharednotes.ui.note
 
 import android.content.Context
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,7 @@ class NoteAdapter(
     private fun initHolderText(holder: NoteAdapter.ViewHolderText, position: Int) {
         holder.lblNoteContent.text = notes[position].content
         holder.lblNoteDate.text = dateFormat.format(notes[position].creationDate)
+        holder.bindEventToItem(notes[position])
     }
 
     private fun initHolderPhoto(holder: NoteAdapter.ViewHolderPhoto, position: Int) {
@@ -71,16 +73,40 @@ class NoteAdapter(
                 .apply(RequestOptions().transforms(CenterCrop()))
                 .into(holder.imgNotePhoto)
         holder.lblNotePhotoDate.text = dateFormat.format(notes[position].creationDate)
+        holder.bindEventToItem(notes[position])
     }
 
     class ViewHolderText(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val lblNoteContent = itemView.findViewById<TextView>(R.id.lblNoteContent)!!
-        val lblNoteDate = itemView.findViewById<TextView>(R.id.lblNoteDate)!!
+        val lblNoteDate = itemView.findViewById<TextView>(R.id.lblNoteDate)
+
+        private fun setupPopupMenu(context: Context, view: View) {
+            val menu = PopupMenu(context, view)
+            menu.inflate(R.menu.contex_menu_note)
+            menu.show()
+        }
+
+        fun bindEventToItem(note: Note) {
+            itemView.setOnClickListener {
+                setupPopupMenu(it.context, it)
+            }
+        }
     }
 
     class ViewHolderPhoto(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgNotePhoto = itemView.findViewById<ImageView>(R.id.imgNotePhoto)!!
         val lblNotePhotoDate = itemView.findViewById<TextView>(R.id.lblNotePhotoDate)!!
-    }
 
+        private fun setupPopupMenu(context: Context, view: View) {
+            val menu = PopupMenu(context, view)
+            menu.inflate(R.menu.contex_menu_note)
+            menu.show()
+        }
+
+        fun bindEventToItem(note: Note) {
+            itemView.setOnClickListener {
+                setupPopupMenu(it.context, it)
+            }
+        }
+    }
 }
