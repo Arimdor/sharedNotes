@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:alpha="100"
-        app:cardElevation="5dp">
+        app:cardElevation="-1dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/list_shape">
-
 
             <TextView
                 android:id="@+id/lblBookTitle"
@@ -43,7 +43,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_more_vert_black" />
+                app:srcCompat="@drawable/ic_more_vert_black"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/lblCountNotes"
@@ -52,11 +55,11 @@
                 android:layout_marginStart="3dp"
                 android:text="TextView"
                 android:textSize="10sp"
-                app:layout_constraintStart_toEndOf="@+id/imgSection"
-                app:layout_constraintTop_toTopOf="@+id/imgSection" />
+                app:layout_constraintStart_toEndOf="@+id/imgNote"
+                app:layout_constraintTop_toTopOf="@+id/imgNote" />
 
             <ImageView
-                android:id="@+id/imgSection"
+                android:id="@+id/imgNote"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_marginTop="3dp"

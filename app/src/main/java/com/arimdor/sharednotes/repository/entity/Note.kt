@@ -1,6 +1,6 @@
-package com.arimdor.sharednotes.repository.entity
+package com.arimdor.sharednotes.repository.entity;
 
-import com.arimdor.sharednotes.util.Constants
+import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -9,14 +9,15 @@ import java.util.*
 
 open class Note(
         @Required
-        var content: String = "",
-        var type: Int = Constants.TYPE_TEXT
+        var title: String = "Sin Titulo"
 
 ) : RealmObject(), RealmModel {
+
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
+
+    var contents: RealmList<Content> = RealmList()
+
     @Required
     var creationDate: Date = Date()
-
 }
-

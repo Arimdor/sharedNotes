@@ -9,6 +9,7 @@ class MyApplication : Application() {
     companion object {
         val realm: Realm
             get() = Realm.getDefaultInstance()
+        var photoUri = ""
     }
 
     override fun onCreate() {

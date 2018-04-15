@@ -5,6 +5,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -27,9 +28,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.section.SectionActivity" />
-        <activity android:name=".ui.book.BookActivity" />
         <activity android:name=".ui.note.NoteActivity" />
+        <activity android:name=".ui.book.BookActivity" />
+        <activity android:name=".ui.content.ContentActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -40,6 +41,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".ui.photo.PhotoActivity"></activity>
     </application>
 
 </manifest>

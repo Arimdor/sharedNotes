@@ -1,111 +1,64 @@
 package com.arimdor.sharednotes.ui.note
 
 import android.content.Context
-import android.support.v7.widget.PopupMenu
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import android.widget.TextView
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Note
-import com.arimdor.sharednotes.util.Constants
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestOptions
-import java.io.File
+import com.arimdor.sharednotes.ui.content.ContentActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 class NoteAdapter(
         private val context: Context,
-        private val notes: MutableList<Note>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        private val notes: MutableList<Note>,
+        private val titleBook: String
+) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     private var lastPosition = -1
     private val dateFormat = SimpleDateFormat("dd/MM/yyy", Locale.getDefault())
 
-    override fun getItemViewType(position: Int): Int {
-        return notes[position].type
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == Constants.TYPE_IMAGE) {
-            NoteAdapter.ViewHolderPhoto(LayoutInflater.from(parent.context).inflate(R.layout.list_view_note_item_photo, parent, false))
-        } else {
-            NoteAdapter.ViewHolderText(LayoutInflater.from(parent.context).inflate(R.layout.list_view_note_item_text, parent, false))
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_view_note_item, parent, false)
+        return NoteAdapter.ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
         return notes.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            Constants.TYPE_TEXT -> {
-                initHolderText(holder as NoteAdapter.ViewHolderText, position)
-            }
-            Constants.TYPE_IMAGE -> {
-                initHolderPhoto(holder as NoteAdapter.ViewHolderPhoto, position)
-            }
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.lblTitle.text = notes[position].title
+        holder.lblDate.text = dateFormat.format(notes[position].creationDate)
+        holder.lblResumen.text = "Lorem ipsum dolor sit amet impera \n adipiscing elit, lorem ipsum dolor \n sed..."
 
         if (position > lastPosition) {
             val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_scrolling)
             holder.itemView.startAnimation(animation)
             lastPosition = position
         }
+        holder.bindEventsToItem(notes[position], titleBook)
     }
 
-    private fun initHolderText(holder: NoteAdapter.ViewHolderText, position: Int) {
-        holder.lblNoteContent.text = notes[position].content
-        holder.lblNoteDate.text = dateFormat.format(notes[position].creationDate)
-        holder.bindEventToItem(notes[position])
-    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val lblTitle = itemView.findViewById<TextView>(R.id.lblNoteTitle)!!
+        val lblDate = itemView.findViewById<TextView>(R.id.lblNoteDate)!!
+        val lblResumen = itemView.findViewById<TextView>(R.id.lblNoteResumen)!!
+        //val imageSection = itemView.findViewById<ImageView>(R.id.imgSection)!!
 
-    private fun initHolderPhoto(holder: NoteAdapter.ViewHolderPhoto, position: Int) {
-        Glide.with(context)
-                .load(File(notes[position].content))
-                .apply(RequestOptions().transforms(CenterCrop()))
-                .into(holder.imgNotePhoto)
-        holder.lblNotePhotoDate.text = dateFormat.format(notes[position].creationDate)
-        holder.bindEventToItem(notes[position])
-    }
-
-    class ViewHolderText(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val lblNoteContent = itemView.findViewById<TextView>(R.id.lblNoteContent)!!
-        val lblNoteDate = itemView.findViewById<TextView>(R.id.lblNoteDate)
-
-        private fun setupPopupMenu(context: Context, view: View) {
-            val menu = PopupMenu(context, view)
-            menu.inflate(R.menu.contex_menu_note)
-            menu.show()
-        }
-
-        fun bindEventToItem(note: Note) {
+        fun bindEventsToItem(note: Note, titleBook: String) {
             itemView.setOnClickListener {
-                setupPopupMenu(it.context, it)
-            }
-        }
-    }
-
-    class ViewHolderPhoto(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgNotePhoto = itemView.findViewById<ImageView>(R.id.imgNotePhoto)!!
-        val lblNotePhotoDate = itemView.findViewById<TextView>(R.id.lblNotePhotoDate)!!
-
-        private fun setupPopupMenu(context: Context, view: View) {
-            val menu = PopupMenu(context, view)
-            menu.inflate(R.menu.contex_menu_note)
-            menu.show()
-        }
-
-        fun bindEventToItem(note: Note) {
-            itemView.setOnClickListener {
-                setupPopupMenu(it.context, it)
+                val intent = Intent(it.context, ContentActivity::class.java)
+                intent.putExtra("idSection", note.id)
+                intent.putExtra("titleSection", note.title)
+                intent.putExtra("titleBook", titleBook)
+                it.context.startActivity(intent)
             }
         }
     }

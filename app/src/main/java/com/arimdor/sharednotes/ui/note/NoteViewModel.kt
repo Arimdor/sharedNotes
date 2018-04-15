@@ -3,32 +3,24 @@ package com.arimdor.sharednotes.ui.note
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.graphics.Bitmap
 import com.arimdor.sharednotes.repository.NoteRepository
 import com.arimdor.sharednotes.repository.entity.Note
 
 class NoteViewModel : ViewModel() {
 
-    private val noteRepository = NoteRepository()
-    private val notes = MutableLiveData<List<Note>>()
-    val tempPhoto = MutableLiveData<Bitmap>()
+    private val sectionRepository = NoteRepository()
+    private val sections = MutableLiveData<List<Note>>()
 
-
-    fun getNotes(): LiveData<List<Note>> {
-        return notes
+    fun getSections(): LiveData<List<Note>> {
+        return sections
     }
 
-    fun loadNotes(idSection: String) {
-        notes.value = noteRepository.searchAllNotes(idSection)
+    fun loadSections(idBook: String) {
+        sections.value = sectionRepository.searchAllSections(idBook)
     }
 
-    fun addNote(content: String, idSection: String, type: Int = 0) {
-        noteRepository.createNote(content, idSection, type)
-        loadNotes(idSection)
-    }
-
-    fun removeAllNotes(idSection: String) {
-        noteRepository.deleteAllNotes(idSection)
-        loadNotes(idSection)
+    fun addSection(title: String, idBook: String) {
+        sectionRepository.createSection(title, idBook)
+        loadSections(idBook)
     }
 }

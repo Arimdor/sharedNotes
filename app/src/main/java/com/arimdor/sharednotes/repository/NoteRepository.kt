@@ -1,21 +1,16 @@
 package com.arimdor.sharednotes.repository
 
-import com.arimdor.sharednotes.repository.dao.NoteDao
+import com.arimdor.sharednotes.repository.dao.SectionDao
 import com.arimdor.sharednotes.repository.entity.Note
 
 class NoteRepository {
+    private val sectionDao = SectionDao()
 
-    private val noteDao = NoteDao()
-
-    fun createNote(content: String, idSection: String, type: Int = 0) {
-        noteDao.insertNote(content, idSection, type)
+    fun createSection(title: String, idBook: String) {
+        sectionDao.insertSection(title, idBook)
     }
 
-    fun searchAllNotes(idSection: String): MutableList<Note> {
-        return noteDao.findAllNotes(idSection)
-    }
-
-    fun deleteAllNotes(idSection: String) {
-        noteDao.removeAllNotes(idSection)
+    fun searchAllSections(idBook: String): MutableList<Note> {
+        return sectionDao.findAllSections(idBook)
     }
 }

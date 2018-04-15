@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Book
-import com.arimdor.sharednotes.ui.section.SectionActivity
+import com.arimdor.sharednotes.ui.note.NoteActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +36,7 @@ class BookAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lblTitle.text = books[position].title
-        holder.lblCountNotes.text = "${books[position].sections.size} Notes"
+        holder.lblCountNotes.text = "${books[position].notes.size} Notes"
         holder.lblDate.text = dateFormat.format(books[position].creationDate)
 
         if (position > lastPosition) {
@@ -55,7 +55,7 @@ class BookAdapter(
 
         fun bindEventsToItem(book: Book) {
             itemView.setOnClickListener {
-                val intent = Intent(it.context, SectionActivity::class.java)
+                val intent = Intent(it.context, NoteActivity::class.java)
                 intent.putExtra("idBook", book.id)
                 intent.putExtra("bookTitle", book.title)
                 it.context.startActivity(intent)

@@ -15,7 +15,7 @@ open class Book(
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
 
-    var sections: RealmList<Section> = RealmList()
+    var notes: RealmList<Note> = RealmList()
 
     @Required
     var creationDate: Date = Date()

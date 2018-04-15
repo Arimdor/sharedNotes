@@ -3,7 +3,7 @@ package com.arimdor.sharednotes.repository.dao
 import android.util.Log
 import com.arimdor.sharednotes.app.MyApplication
 import com.arimdor.sharednotes.repository.entity.Book
-import com.arimdor.sharednotes.repository.entity.Section
+import com.arimdor.sharednotes.repository.entity.Note
 
 class SectionDao {
 
@@ -12,10 +12,10 @@ class SectionDao {
     fun insertSection(title: String, idBook: String): Boolean {
         return try {
             val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
-            val section = Section(title)
+            val section = Note(title)
             realm.beginTransaction()
             realm.copyToRealm(section)
-            book!!.sections.add(section)
+            book!!.notes.add(section)
             realm.commitTransaction()
             true
         } catch (e: Exception) {
@@ -24,9 +24,9 @@ class SectionDao {
         }
     }
 
-    fun findAllSections(idBook: String): MutableList<Section> {
+    fun findAllSections(idBook: String): MutableList<Note> {
         val book = realm.where(Book::class.java).equalTo("id",idBook).findFirst()
-        return book!!.sections
+        return book!!.notes
     }
 
 }
