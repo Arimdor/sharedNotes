@@ -21,6 +21,7 @@ import com.arimdor.sharednotes.ui.photo.PhotoActivity
 import com.arimdor.sharednotes.util.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.*

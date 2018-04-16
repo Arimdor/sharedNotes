@@ -11,13 +11,15 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.arimdor.sharednotes.R
-import com.arimdor.sharednotes.repository.entity.Book
 import com.arimdor.sharednotes.repository.entity.Note
-import com.arimdor.sharednotes.ui.book.BookViewModel
 import com.arimdor.sharednotes.ui.content.ContentActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,7 +45,11 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lblTitle.text = notes[position].title
         holder.lblDate.text = dateFormat.format(notes[position].creationDate)
-        holder.lblResumen.text = "Lorem ipsum dolor sit amet impera \n adipiscing elit, lorem ipsum dolor \n sed..."
+        holder.lblResumen.text = viewModel.generateResumeText(notes[position])
+        Glide.with(context)
+                .load(viewModel.generateResumeImage(notes[position]))
+                .apply(RequestOptions.circleCropTransform())
+                .into(holder.imageNote)
 
         if (position > lastPosition) {
             val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_scrolling)
@@ -57,7 +63,7 @@ class NoteAdapter(
         val lblTitle = itemView.findViewById<TextView>(R.id.lblNoteTitle)!!
         val lblDate = itemView.findViewById<TextView>(R.id.lblNoteDate)!!
         val lblResumen = itemView.findViewById<TextView>(R.id.lblNoteResumen)!!
-        //val imageSection = itemView.findViewById<ImageView>(R.id.imgSection)!!
+        val imageNote = itemView.findViewById<ImageView>(R.id.imgNote)!!
 
         fun bindEventsToItem(note: Note, titleBook: String, viewModel: NoteViewModel) {
 

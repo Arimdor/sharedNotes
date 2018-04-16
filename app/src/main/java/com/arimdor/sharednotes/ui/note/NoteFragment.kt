@@ -19,6 +19,7 @@ import android.widget.Toast
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Note
 import com.arimdor.sharednotes.ui.login.LoginActivity
+import com.arimdor.sharednotes.util.Constants
 
 class NoteFragment : Fragment() {
 
