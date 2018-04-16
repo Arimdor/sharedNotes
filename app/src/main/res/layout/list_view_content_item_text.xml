@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/cardview_light_background"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:elevation="4dp">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/lblContent"

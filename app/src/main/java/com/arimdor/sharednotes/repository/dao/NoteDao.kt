@@ -2,20 +2,20 @@ package com.arimdor.sharednotes.repository.dao
 
 import android.util.Log
 import com.arimdor.sharednotes.app.MyApplication
-import com.arimdor.sharednotes.repository.entity.Content
+import com.arimdor.sharednotes.repository.entity.Book
 import com.arimdor.sharednotes.repository.entity.Note
 
 class NoteDao {
 
     private val realm = MyApplication.realm
 
-    fun insertNote(content: String, idSection: String, type: Int = 0): Boolean {
+    fun insertSection(title: String, idBook: String): Boolean {
         return try {
-            val section = realm.where(Note::class.java).equalTo("id", idSection).findFirst()
-            val note = Content(content, type)
+            val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
+            val section = Note(title)
             realm.beginTransaction()
             realm.copyToRealm(section)
-            section!!.contents.add(note)
+            book!!.notes.add(section)
             realm.commitTransaction()
             true
         } catch (e: Exception) {
@@ -24,15 +24,22 @@ class NoteDao {
         }
     }
 
-    fun findAllNotes(idSection: String): MutableList<Content> {
-        val section = realm.where(Note::class.java).equalTo("id", idSection).findFirst()
-        return section!!.contents
-    }
-
-    fun removeAllNotes(idSection: String) {
+    fun updateNote(idBook: String, title: String) {
         realm.beginTransaction()
-        val section = realm.where(Note::class.java).equalTo("id", idSection).findFirst()
-        section!!.contents.deleteAllFromRealm()
+        val note = realm.where(Note::class.java).equalTo("id",idBook).findFirst()
+        note?.title = title
         realm.commitTransaction()
     }
+
+    fun removeNote(idNote: String) {
+        realm.beginTransaction()
+        val note = realm.where(Note::class.java).equalTo("id", idNote).findFirst()?.deleteFromRealm()
+        realm.commitTransaction()
+    }
+
+    fun findAllNotesInBook(idBook: String): MutableList<Note> {
+        val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
+        return book!!.notes
+    }
+
 }

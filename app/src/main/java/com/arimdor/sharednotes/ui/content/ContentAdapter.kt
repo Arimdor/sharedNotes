@@ -2,6 +2,7 @@ package com.arimdor.sharednotes.ui.content
 
 import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Content
 import com.arimdor.sharednotes.ui.photo.PhotoActivity
@@ -24,7 +27,8 @@ import java.util.*
 
 class ContentAdapter(
         private val context: Context,
-        private val contents: MutableList<Content>
+        private val contents: MutableList<Content>,
+        private val viewModel: ContentViewModel
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var lastPosition = -1
@@ -66,7 +70,7 @@ class ContentAdapter(
     private fun initHolderText(holder: ContentAdapter.ViewHolderText, position: Int) {
         holder.lblContent.text = contents[position].content
         holder.lblContentDate.text = dateFormat.format(contents[position].creationDate)
-        holder.bindEventToItem(contents[position])
+        holder.bindEventToItem(contents[position], viewModel)
     }
 
     private fun initHolderPhoto(holder: ContentAdapter.ViewHolderPhoto, position: Int) {
@@ -83,16 +87,54 @@ class ContentAdapter(
         val lblContent = itemView.findViewById<TextView>(R.id.lblContent)!!
         val lblContentDate = itemView.findViewById<TextView>(R.id.lblNoteDate)!!
 
-        private fun setupPopupMenu(context: Context, view: View) {
+        fun bindEventToItem(content: Content, viewModel: ContentViewModel) {
+            itemView.setOnLongClickListener {
+                setupPopupMenu(it.context, it, content, viewModel)
+                true
+            }
+        }
+
+        private fun setupPopupMenu(context: Context, view: View, content: Content, viewModel: ContentViewModel) {
             val menu = PopupMenu(context, view)
             menu.inflate(R.menu.contex_menu_note)
+            menu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.delete_note_menu -> {
+                        viewModel.removeContent(content.id)
+                        true
+                    }
+                    R.id.edit_note_menu -> {
+                        showAlertDialog(context, "Editar nota", "Editar el título de la nota", content, viewModel)
+                        true
+                    }
+                    else -> false
+                }
+            }
             menu.show()
         }
 
-        fun bindEventToItem(content: Content) {
-            itemView.setOnClickListener {
-                setupPopupMenu(it.context, it)
+        // Add Note Dialog
+        private fun showAlertDialog(context: Context, title: String?, message: String?, content: Content, viewModel: ContentViewModel) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(title)
+            builder.setMessage(message)
+
+            val viewInflater = LayoutInflater.from(context).inflate(R.layout.dialog_create_book, null)
+            builder.setView(viewInflater)
+
+            val input = viewInflater.findViewById(R.id.txtAddBookTitle) as EditText
+            input.setText(content.content, TextView.BufferType.EDITABLE)
+
+            builder.setPositiveButton("Actualizar") { dialog, which ->
+                val contentValue = input.text.toString().trim { it <= ' ' }
+                if (contentValue.isNotEmpty()) {
+                    viewModel.updateContent(content.id, contentValue)
+                } else {
+                    Toast.makeText(context, "El titulo no puede estar vacío", Toast.LENGTH_SHORT).show()
+                }
             }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 

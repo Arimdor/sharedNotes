@@ -14,7 +14,14 @@ class BookRepository {
 
     fun searchAllBooks(): MutableList<Book> {
         return bookDao.findAllBooks()
+    }
 
+    fun updateBook(idBook: String, title: String) {
+        bookDao.updateBook(idBook, title)
+    }
+
+    fun deleteBook(idBook: String) {
+        bookDao.deleteBook(idBook)
     }
 
 }

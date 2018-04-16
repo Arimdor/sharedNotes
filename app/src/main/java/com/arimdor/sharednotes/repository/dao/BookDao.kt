@@ -23,4 +23,18 @@ class BookDao {
     fun findAllBooks(): MutableList<Book> {
         return realm.where(Book::class.java).findAll()
     }
+
+    fun updateBook(idBook: String, title: String) {
+        realm.beginTransaction()
+        val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
+        book?.title = title
+        realm.commitTransaction()
+    }
+
+    fun deleteBook(idBook: String) {
+        realm.beginTransaction()
+        val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
+        book?.deleteFromRealm()
+        realm.commitTransaction()
+    }
 }

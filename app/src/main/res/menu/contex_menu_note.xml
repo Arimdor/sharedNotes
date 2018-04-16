@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/edit_note"
+        android:id="@+id/edit_note_menu"
         android:title="Editar nota" />
     <item
-        android:id="@+id/delete_note"
+        android:id="@+id/delete_note_menu"
         android:title="Borrar nota" />
 </menu>

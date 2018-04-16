@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.arimdor.sharednotes.R
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestOptions
 import com.github.chrisbanes.photoview.PhotoView
 
 class PhotoFragment : Fragment() {
@@ -21,7 +19,7 @@ class PhotoFragment : Fragment() {
 
         val photoUri = activity?.intent!!.getStringExtra("photoUri")
         photoView = view.findViewById(R.id.photo_view)
-        photoView.maximumScale = 400f
+        photoView.maximumScale = 50f
         photoView.adjustViewBounds = true
 
         Glide.with(context!!)

@@ -28,12 +28,11 @@ class NoteFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel by lazy { ViewModelProviders.of(this).get(NoteViewModel::class.java) }
     private var notes: MutableList<Note> = ArrayList()
-    private lateinit var idBook: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note, container, false)
 
-        idBook = activity?.intent!!.getStringExtra("idBook")
+        viewModel.idBook = activity?.intent!!.getStringExtra("idBook")
         val titleBook = activity?.intent!!.getStringExtra("bookTitle")
 
         activity?.title = titleBook
@@ -42,7 +41,7 @@ class NoteFragment : Fragment() {
         fbtnAddNote = view.findViewById(R.id.fbtnAddNote)
         recyclerView = view.findViewById(R.id.recyclerViewNote)
 
-        viewModel.loadSections(idBook)
+        viewModel.loadSections(viewModel.idBook)
         viewModel.getSections().observe(this, Observer { sections ->
             this.notes.clear()
             this.notes.addAll(0, sections!!)
@@ -51,7 +50,7 @@ class NoteFragment : Fragment() {
         })
 
         fbtnAddNote.setOnClickListener {
-            showAlertDialog("Agregar nueva sección", "Agrega un titulo a la nueva sección", idBook)
+            showAlertDialog("Agregar nueva sección", "Agrega un titulo a la nueva sección", viewModel.idBook)
         }
 
         setupRecyclerSections(titleBook)
@@ -63,7 +62,7 @@ class NoteFragment : Fragment() {
         val animationRecycler = AnimationUtils.loadLayoutAnimation(recyclerView.context, R.anim.layout_animation_load)
 
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        noteAdapter = NoteAdapter(context!!, notes, titleBook)
+        noteAdapter = NoteAdapter(context!!, notes, titleBook, viewModel)
         recyclerView.hasFixedSize()
         recyclerView.adapter = noteAdapter
         recyclerView.layoutAnimation = animationRecycler
@@ -90,7 +89,7 @@ class NoteFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.update_all -> {
-                viewModel.loadSections(idBook)
+                viewModel.loadSections(viewModel.idBook)
                 return true
             }
             R.id.menu_logout -> {

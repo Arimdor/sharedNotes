@@ -1,6 +1,5 @@
 package com.arimdor.sharednotes.ui.content
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.arimdor.sharednotes.R
-import com.arimdor.sharednotes.util.Constants
 
 class ContentActivity : AppCompatActivity() {
 

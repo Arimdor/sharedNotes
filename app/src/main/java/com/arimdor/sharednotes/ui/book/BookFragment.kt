@@ -35,7 +35,7 @@ class BookFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_book, container, false)
 
         sharedPreferences = activity!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        bookAdapter = BookAdapter(context!!, books)
+        bookAdapter = BookAdapter(context!!, books, viewModel)
         recyclerView = view.findViewById(R.id.recyclerViewBook)
         fbtnAddBook = view.findViewById(R.id.fbtnAddBook)
 
@@ -124,6 +124,5 @@ class BookFragment : Fragment() {
         val dialog = builder.create()
         dialog.show()
     }
-
 
 }

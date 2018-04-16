@@ -13,7 +13,9 @@ class BookViewModel : ViewModel() {
     private var books = MutableLiveData<List<Book>>()
 
     init {
-        loadBooks()
+        if (books.value == null) {
+            loadBooks()
+        }
     }
 
     fun getBooks(): LiveData<List<Book>> {
@@ -21,12 +23,22 @@ class BookViewModel : ViewModel() {
     }
 
     fun loadBooks() {
-        Log.d("test","loading Books")
+        Log.d("test", "loading Books")
         books.value = bookRepository.searchAllBooks()
     }
 
     fun addBooks(title: String) {
         bookRepository.createBook(title)
+        loadBooks()
+    }
+
+    fun updateBook(idBook: String, title: String) {
+        bookRepository.updateBook(idBook, title)
+        loadBooks()
+    }
+
+    fun deleteBook(idBook: String) {
+        bookRepository.deleteBook(idBook)
         loadBooks()
     }
 

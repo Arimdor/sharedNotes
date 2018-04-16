@@ -10,6 +10,7 @@ class NoteViewModel : ViewModel() {
 
     private val sectionRepository = NoteRepository()
     private val sections = MutableLiveData<List<Note>>()
+    var idBook = ""
 
     fun getSections(): LiveData<List<Note>> {
         return sections
@@ -21,6 +22,16 @@ class NoteViewModel : ViewModel() {
 
     fun addSection(title: String, idBook: String) {
         sectionRepository.createSection(title, idBook)
+        loadSections(idBook)
+    }
+
+    fun updateNote(idNote: String, title: String) {
+        sectionRepository.updateNote(idNote, title)
+        loadSections(idBook)
+    }
+
+    fun removeNote(idNote: String) {
+        sectionRepository.removeNote(idNote)
         loadSections(idBook)
     }
 }

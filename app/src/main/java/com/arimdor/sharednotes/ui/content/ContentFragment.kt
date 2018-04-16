@@ -69,8 +69,9 @@ class ContentFragment : Fragment() {
 
         setupRecyclerNote()
 
-        viewModel.loadNotes(idSection)
-        viewModel.getNotes().observe(this, Observer { notes ->
+        viewModel.idSection = idSection
+        viewModel.loadCotents()
+        viewModel.getContents().observe(this, Observer { notes ->
             Log.d("test", notes?.size.toString())
             this.contents.clear()
             this.contents.addAll(0, notes!!)
@@ -91,7 +92,7 @@ class ContentFragment : Fragment() {
         val animationRecycler = AnimationUtils.loadLayoutAnimation(recyclerView.context, R.anim.layout_animation_load)
 
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        contentAdapter = ContentAdapter(context!!, contents)
+        contentAdapter = ContentAdapter(context!!, contents, viewModel)
         recyclerView.hasFixedSize()
         recyclerView.adapter = contentAdapter
         recyclerView.layoutAnimation = animationRecycler
@@ -123,7 +124,7 @@ class ContentFragment : Fragment() {
                 viewModel.photoUri = MyApplication.photoUri
                 MyApplication.photoUri = ""
             }
-            viewModel.addNote(viewModel.photoUri, idSection, Constants.TYPE_IMAGE)
+            viewModel.addContent(viewModel.photoUri, idSection, Constants.TYPE_IMAGE)
             viewModel.photoUri = ""
         } else Toast.makeText(context, "No se pudo guardar la foto :(", Toast.LENGTH_SHORT).show()
         super.onActivityResult(requestCode, resultCode, data)
@@ -157,11 +158,11 @@ class ContentFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.update_all -> {
-                viewModel.loadNotes(idSection)
+                viewModel.loadCotents(idSection)
                 return true
             }
             R.id.delete_all -> {
-                viewModel.removeAllNotes(idSection)
+                viewModel.removeAllContents(idSection)
                 return true
             }
             R.id.menu_logout -> {
@@ -190,7 +191,7 @@ class ContentFragment : Fragment() {
         builder.setPositiveButton("Add") { dialog, which ->
             val title = input.text.toString().trim { it <= ' ' }
             if (title.isNotEmpty()) {
-                viewModel.addNote(title, idSection)
+                viewModel.addContent(title, idSection)
             } else {
                 Toast.makeText(context, "The name is required to create a new Book", Toast.LENGTH_SHORT).show()
             }

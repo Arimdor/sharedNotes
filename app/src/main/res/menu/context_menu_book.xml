@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/edit_board"
+        android:id="@+id/edit_book_menu"
         android:title="Editar libreta" />
     <item
-        android:id="@+id/delete_board"
+        android:id="@+id/delete_book_menu"
         android:title="Eliminar libreta" />
 </menu>
