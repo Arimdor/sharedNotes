@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/cardview_light_background"
     android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:elevation="2dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
