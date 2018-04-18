@@ -1,6 +1,7 @@
 package com.arimdor.sharednotes.app
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -14,6 +15,10 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
+        }
+        LeakCanary.install(this)
         setUpRealmConfig()
     }
 

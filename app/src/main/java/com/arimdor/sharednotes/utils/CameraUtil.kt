@@ -1,4 +1,4 @@
-package com.arimdor.sharednotes.util
+package com.arimdor.sharednotes.utils
 
 import java.io.File
 import java.io.IOException

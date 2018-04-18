@@ -18,7 +18,6 @@ import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Note
 import com.arimdor.sharednotes.ui.content.ContentActivity
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.*

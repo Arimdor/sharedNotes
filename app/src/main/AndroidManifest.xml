@@ -6,8 +6,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.MyApplication"
@@ -41,7 +40,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.photo.PhotoActivity"></activity>
+        <activity android:name=".ui.photo.PhotoActivity" />
+        <activity android:name=".ui.userRegister.RegisterActivity"></activity>
     </application>
 
 </manifest>

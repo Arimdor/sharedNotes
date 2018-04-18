@@ -27,8 +27,8 @@ import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.app.MyApplication
 import com.arimdor.sharednotes.repository.entity.Content
 import com.arimdor.sharednotes.ui.login.LoginActivity
-import com.arimdor.sharednotes.util.CameraUtil
-import com.arimdor.sharednotes.util.Constants
+import com.arimdor.sharednotes.utils.CameraUtil
+import com.arimdor.sharednotes.utils.Constants
 import java.io.File
 import java.io.IOException
 

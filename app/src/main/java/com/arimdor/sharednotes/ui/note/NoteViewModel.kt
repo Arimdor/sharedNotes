@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.NoteRepository
 import com.arimdor.sharednotes.repository.entity.Note
-import com.arimdor.sharednotes.util.Constants
+import com.arimdor.sharednotes.utils.Constants
 
 class NoteViewModel : ViewModel() {
 

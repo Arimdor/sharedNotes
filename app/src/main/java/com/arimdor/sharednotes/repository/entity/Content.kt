@@ -1,6 +1,6 @@
 package com.arimdor.sharednotes.repository.entity
 
-import com.arimdor.sharednotes.util.Constants
+import com.arimdor.sharednotes.utils.Constants
 import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

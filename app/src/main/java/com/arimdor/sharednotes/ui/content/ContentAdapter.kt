@@ -18,10 +18,9 @@ import android.widget.Toast
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Content
 import com.arimdor.sharednotes.ui.photo.PhotoActivity
-import com.arimdor.sharednotes.util.Constants
+import com.arimdor.sharednotes.utils.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.*

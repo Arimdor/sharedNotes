@@ -21,6 +21,11 @@
             android:id="@+id/menu_settings"
             android:icon="@drawable/ic_menu_settings"
             android:title="Ajustes" />
+
+        <item
+            android:id="@+id/menu_logout"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="Cerrar Sesión" />
     </group>
 
 </menu>
