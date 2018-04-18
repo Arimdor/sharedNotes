@@ -18,8 +18,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Note
+import com.arimdor.sharednotes.ui.content.ContentActivity
 import com.arimdor.sharednotes.ui.login.LoginActivity
-import com.arimdor.sharednotes.util.Constants
 
 class NoteFragment : Fragment() {
 
@@ -29,12 +29,13 @@ class NoteFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel by lazy { ViewModelProviders.of(this).get(NoteViewModel::class.java) }
     private var notes: MutableList<Note> = ArrayList()
+    private lateinit var titleBook: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note, container, false)
 
         viewModel.idBook = activity?.intent!!.getStringExtra("idBook")
-        val titleBook = activity?.intent!!.getStringExtra("bookTitle")
+        titleBook = activity?.intent!!.getStringExtra("bookTitle")
 
         activity?.title = titleBook
         sharedPreferences = activity!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
@@ -42,7 +43,7 @@ class NoteFragment : Fragment() {
         fbtnAddNote = view.findViewById(R.id.fbtnAddNote)
         recyclerView = view.findViewById(R.id.recyclerViewNote)
 
-        viewModel.loadSections(viewModel.idBook)
+        viewModel.loadNotes(viewModel.idBook)
         viewModel.getSections().observe(this, Observer { sections ->
             this.notes.clear()
             this.notes.addAll(0, sections!!)
@@ -51,7 +52,7 @@ class NoteFragment : Fragment() {
         })
 
         fbtnAddNote.setOnClickListener {
-            showAlertDialog("Agregar nueva sección", "Agrega un titulo a la nueva sección", viewModel.idBook)
+            showAlertDialog("Agregar nueva nota", "Agrega un título a la nota", viewModel.idBook)
         }
 
         setupRecyclerSections(titleBook)
@@ -90,7 +91,7 @@ class NoteFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.update_all -> {
-                viewModel.loadSections(viewModel.idBook)
+                viewModel.loadNotes(viewModel.idBook)
                 return true
             }
             R.id.menu_logout -> {
@@ -116,13 +117,26 @@ class NoteFragment : Fragment() {
 
         val input = viewInflater.findViewById(R.id.txtAddBookTitle) as EditText
 
-        builder.setPositiveButton("Add") { dialog, which ->
-            val title = input.text.toString().trim { it <= ' ' }
-            if (title.isNotEmpty()) {
-                viewModel.addSection(title, idBook)
+        builder.setPositiveButton("Aceptar") { dialog, which ->
+            val titleNote = input.text.toString().trim { it <= ' ' }
+            if (titleNote.isNotEmpty()) {
+                val note = viewModel.createNote(titleNote, idBook)
+                if (note != null) {
+                    val intent = Intent(context, ContentActivity::class.java)
+                    intent.putExtra("idSection", note.id)
+                    intent.putExtra("titleSection", titleNote)
+                    intent.putExtra("titleBook", titleBook)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(context, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
             } else {
-                Toast.makeText(context, "The name is required to create a new Book", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Se requiere un título para la nota", Toast.LENGTH_SHORT).show()
             }
+        }
+        builder.setNeutralButton("Cancelar") { dialog, which ->
+            dialog.cancel()
         }
         val dialog = builder.create()
         dialog.show()

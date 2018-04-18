@@ -18,23 +18,24 @@ class NoteViewModel : ViewModel() {
         return notes
     }
 
-    fun loadSections(idBook: String) {
-        notes.value = noteRepository.searchAllSections(idBook)
+    fun loadNotes(idBook: String) {
+        notes.value = noteRepository.searchAllNotes(idBook)
     }
 
-    fun addSection(title: String, idBook: String) {
-        noteRepository.createSection(title, idBook)
-        loadSections(idBook)
+    fun createNote(title: String, idBook: String): Note? {
+        val note = noteRepository.createNote(title, idBook)
+        loadNotes(idBook)
+        return note
     }
 
     fun updateNote(idNote: String, title: String) {
         noteRepository.updateNote(idNote, title)
-        loadSections(idBook)
+        loadNotes(idBook)
     }
 
     fun removeNote(idNote: String) {
         noteRepository.removeNote(idNote)
-        loadSections(idBook)
+        loadNotes(idBook)
     }
 
     fun generateResumeText(note: Note): String {

@@ -4,21 +4,25 @@ import com.arimdor.sharednotes.repository.dao.NoteDao
 import com.arimdor.sharednotes.repository.entity.Note
 
 class NoteRepository {
-    private val sectionDao = NoteDao()
+    private val noteDao = NoteDao()
 
-    fun createSection(title: String, idBook: String) {
-        sectionDao.insertSection(title, idBook)
+    fun createNote(title: String, idBook: String): Note? {
+        return noteDao.insertNote(title, idBook)
+    }
+
+    fun findNoteByID(idNote: String): Note? {
+        return noteDao.findNoteByID(idNote)
     }
 
     fun updateNote(idNote: String, title: String) {
-        sectionDao.updateNote(idNote, title)
+        noteDao.updateNote(idNote, title)
     }
 
     fun removeNote(idNote: String) {
-        sectionDao.removeNote(idNote)
+        noteDao.removeNote(idNote)
     }
 
-    fun searchAllSections(idBook: String): MutableList<Note> {
-        return sectionDao.findAllNotesInBook(idBook)
+    fun searchAllNotes(idBook: String): MutableList<Note> {
+        return noteDao.findAllNotesInBook(idBook)
     }
 }

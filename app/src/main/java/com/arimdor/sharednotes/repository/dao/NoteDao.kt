@@ -9,24 +9,28 @@ class NoteDao {
 
     private val realm = MyApplication.realm
 
-    fun insertSection(title: String, idBook: String): Boolean {
+    fun insertNote(title: String, idBook: String): Note? {
         return try {
             val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
-            val section = Note(title)
+            val note = Note(title)
             realm.beginTransaction()
-            realm.copyToRealm(section)
-            book!!.notes.add(section)
+            realm.copyToRealm(note)
+            book!!.notes.add(note)
             realm.commitTransaction()
-            true
+            note
         } catch (e: Exception) {
             Log.e("test", e.message)
-            false
+            null
         }
+    }
+
+    fun findNoteByID(idNote: String): Note? {
+        return realm.where(Note::class.java).equalTo("id", idNote).findFirst()
     }
 
     fun updateNote(idBook: String, title: String) {
         realm.beginTransaction()
-        val note = realm.where(Note::class.java).equalTo("id",idBook).findFirst()
+        val note = realm.where(Note::class.java).equalTo("id", idBook).findFirst()
         note?.title = title
         realm.commitTransaction()
     }

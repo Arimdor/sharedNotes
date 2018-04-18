@@ -41,7 +41,7 @@ class BookFragment : Fragment() {
 
 
         fbtnAddBook.setOnClickListener {
-            showAlertDialog("Agregar nueva libreta", "Agrega un titulo a la nueva libreta")
+            showAlertDialog("Agregar nueva libreta", "Agrega un título a la libreta")
         }
 
         viewModel.getBooks().observe(this, Observer { books ->
