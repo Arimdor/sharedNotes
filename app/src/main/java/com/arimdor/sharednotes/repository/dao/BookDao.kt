@@ -3,6 +3,7 @@ package com.arimdor.sharednotes.repository.dao
 import android.util.Log
 import com.arimdor.sharednotes.app.MyApplication
 import com.arimdor.sharednotes.repository.entity.Book
+import io.realm.Case
 
 class BookDao {
 
@@ -22,6 +23,12 @@ class BookDao {
 
     fun findAllBooks(): MutableList<Book> {
         return realm.where(Book::class.java).findAll()
+    }
+
+    fun findBookByTitle(title: String): MutableList<Book> {
+        var books: MutableList<Book>;
+        books = realm.where(Book::class.java).contains("title",title, Case.INSENSITIVE).findAll()
+        return books
     }
 
     fun updateBook(idBook: String, title: String) {

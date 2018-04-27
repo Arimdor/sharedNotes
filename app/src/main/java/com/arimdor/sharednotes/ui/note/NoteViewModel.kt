@@ -14,11 +14,11 @@ class NoteViewModel : ViewModel() {
     private val notes = MutableLiveData<List<Note>>()
     var idBook = ""
 
-    fun getSections(): LiveData<List<Note>> {
+    fun getNotes(): LiveData<List<Note>> {
         return notes
     }
 
-    fun loadNotes(idBook: String) {
+    fun loadNotes(idBook: String = this.idBook) {
         notes.value = noteRepository.searchAllNotes(idBook)
     }
 

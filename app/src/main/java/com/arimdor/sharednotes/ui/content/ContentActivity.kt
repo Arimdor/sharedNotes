@@ -37,7 +37,7 @@ class ContentActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_home)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 

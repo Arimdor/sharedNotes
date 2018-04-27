@@ -32,6 +32,10 @@ class BookViewModel : ViewModel() {
         loadBooks()
     }
 
+    fun findBookByTitle(title: String) {
+        books.value = bookRepository.findBookByTitle(title)
+    }
+
     fun updateBook(idBook: String, title: String) {
         bookRepository.updateBook(idBook, title)
         loadBooks()

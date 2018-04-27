@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -21,11 +22,12 @@ import com.arimdor.sharednotes.repository.entity.Note
 import com.arimdor.sharednotes.ui.content.ContentActivity
 import com.arimdor.sharednotes.ui.login.LoginActivity
 
-class NoteFragment : Fragment() {
+class NoteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var fbtnAddNote: FloatingActionButton
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel by lazy { ViewModelProviders.of(this).get(NoteViewModel::class.java) }
     private var notes: MutableList<Note> = ArrayList()
@@ -33,6 +35,7 @@ class NoteFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note, container, false)
+        setHasOptionsMenu(true)
 
         viewModel.idBook = activity?.intent!!.getStringExtra("idBook")
         titleBook = activity?.intent!!.getStringExtra("bookTitle")
@@ -42,13 +45,14 @@ class NoteFragment : Fragment() {
 
         fbtnAddNote = view.findViewById(R.id.fbtnAddNote)
         recyclerView = view.findViewById(R.id.recyclerViewNote)
+        mSwipeRefreshLayout = view.findViewById(R.id.noteSwipeRefreshLayout)
 
-        viewModel.loadNotes(viewModel.idBook)
-        viewModel.getSections().observe(this, Observer { sections ->
+        viewModel.getNotes().observe(this, Observer { sections ->
             this.notes.clear()
             this.notes.addAll(0, sections!!)
             noteAdapter.notifyDataSetChanged()
             recyclerView.scheduleLayoutAnimation()
+            mSwipeRefreshLayout.isRefreshing = false
         })
 
         fbtnAddNote.setOnClickListener {
@@ -60,6 +64,11 @@ class NoteFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadNotes()
+    }
+
     private fun setupRecyclerSections(titleBook: String) {
         val animationRecycler = AnimationUtils.loadLayoutAnimation(recyclerView.context, R.anim.layout_animation_load)
 
@@ -68,6 +77,18 @@ class NoteFragment : Fragment() {
         recyclerView.hasFixedSize()
         recyclerView.adapter = noteAdapter
         recyclerView.layoutAnimation = animationRecycler
+        mSwipeRefreshLayout.setOnRefreshListener(this)
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        )
+    }
+
+    override fun onRefresh() {
+        viewModel.loadNotes()
+        mSwipeRefreshLayout.isRefreshing = false
     }
 
     private fun logOut() {

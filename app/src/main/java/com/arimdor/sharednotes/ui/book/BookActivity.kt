@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import com.arimdor.sharednotes.R
 
@@ -37,8 +38,13 @@ class BookActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_home)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

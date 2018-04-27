@@ -12,7 +12,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -27,17 +32,20 @@ class BookFragment : Fragment() {
     private lateinit var bookAdapter: BookAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var fbtnAddBook: FloatingActionButton
+    private lateinit var txtfindBook: EditText
     private val viewModel by lazy { ViewModelProviders.of(this).get(BookViewModel::class.java) }
     private var books: MutableList<Book> = ArrayList()
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_book, container, false)
+        setHasOptionsMenu(true)
 
         sharedPreferences = activity!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
         bookAdapter = BookAdapter(context!!, books, viewModel)
         recyclerView = view.findViewById(R.id.recyclerViewBook)
         fbtnAddBook = view.findViewById(R.id.fbtnAddBook)
+        txtfindBook = view.findViewById(R.id.txtSearchBook)
 
 
         fbtnAddBook.setOnClickListener {
@@ -49,6 +57,20 @@ class BookFragment : Fragment() {
             this.books.addAll(0, books!!)
             bookAdapter.notifyDataSetChanged()
             recyclerView.scheduleLayoutAnimation()
+        })
+
+        txtfindBook.addTextChangedListener(object :TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.findBookByTitle(s.toString())
+            }
         })
 
         setupRecyclerBooks()
@@ -76,11 +98,6 @@ class BookFragment : Fragment() {
         logOut()
     }
 
-    // Options Menu
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

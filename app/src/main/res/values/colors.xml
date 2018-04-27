@@ -5,4 +5,5 @@
     <color name="colorPrimaryDark">#004ba0</color>
     <color name="light_gray_bg">#e2e2e2</color>
     <color name="black">#000</color>
+    <color name="colorWhite">#FFF</color>
 </resources>

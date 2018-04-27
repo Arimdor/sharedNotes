@@ -16,6 +16,10 @@ class BookRepository {
         return bookDao.findAllBooks()
     }
 
+    fun findBookByTitle(title: String): MutableList<Book> {
+        return bookDao.findBookByTitle(title)
+    }
+
     fun updateBook(idBook: String, title: String) {
         bookDao.updateBook(idBook, title)
     }
