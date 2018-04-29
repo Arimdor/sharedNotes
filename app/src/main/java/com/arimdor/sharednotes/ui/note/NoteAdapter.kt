@@ -45,10 +45,15 @@ class NoteAdapter(
         holder.lblTitle.text = notes[position].title
         holder.lblDate.text = dateFormat.format(notes[position].creationDate)
         holder.lblResumen.text = viewModel.generateResumeText(notes[position])
-        Glide.with(context)
-                .load(viewModel.generateResumeImage(notes[position]))
-                .apply(RequestOptions.centerCropTransform())
-                .into(holder.imageNote)
+
+        val uri = viewModel.generateResumeImage(notes[position])
+
+        if (!uri.isEmpty()) {
+            Glide.with(context)
+                    .load(viewModel.generateResumeImage(notes[position]))
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(holder.imageNote)
+        }
 
         if (position > lastPosition) {
             val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_scrolling)

@@ -61,9 +61,6 @@ class NoteViewModel : ViewModel() {
                 break
             }
         }
-        if (uri.isEmpty()) {
-            uri = "android.resource://com.arimdor.sharednotes/drawable/${R.drawable.logo_splash}"
-        }
         return uri
     }
 }
