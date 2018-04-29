@@ -94,6 +94,7 @@ class BookAdapter(
 
         // Add Book Dialog
         private fun showAlertDialog(context: Context, title: String?, message: String?, book: Book, viewModel: BookViewModel) {
+
             val builder = AlertDialog.Builder(context)
             builder.setTitle(title)
             builder.setMessage(message)
@@ -115,6 +116,5 @@ class BookAdapter(
             val dialog = builder.create()
             dialog.show()
         }
-
     }
 }

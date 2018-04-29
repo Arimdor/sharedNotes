@@ -47,7 +47,7 @@ class NoteAdapter(
         holder.lblResumen.text = viewModel.generateResumeText(notes[position])
         Glide.with(context)
                 .load(viewModel.generateResumeImage(notes[position]))
-                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.centerCropTransform())
                 .into(holder.imageNote)
 
         if (position > lastPosition) {
