@@ -10,8 +10,8 @@ android {
         applicationId "com.arimdor.sharednotes"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 8
-        versionName "0.8"
+        versionCode 9
+        versionName "0.85"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
