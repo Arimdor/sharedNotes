@@ -3,7 +3,6 @@ package com.arimdor.sharednotes.ui.note
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.NoteRepository
 import com.arimdor.sharednotes.repository.entity.Note
 import com.arimdor.sharednotes.utils.Constants

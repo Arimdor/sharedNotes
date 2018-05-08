@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Log
 import com.arimdor.sharednotes.ui.book.BookActivity
 import com.arimdor.sharednotes.ui.login.LoginActivity
+import com.google.firebase.iid.FirebaseInstanceId
+
 
 class SplashActivity : AppCompatActivity() {
 
@@ -20,7 +23,11 @@ class SplashActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val intentLogin = Intent(this, LoginActivity::class.java)
         val intentMain = Intent(this, BookActivity::class.java)
-        SystemClock.sleep(500)
+        SystemClock.sleep(200)
+
+        if (!FirebaseInstanceId.getInstance().token.isNullOrBlank()) {
+            Log.d("amd", FirebaseInstanceId.getInstance().token)
+        }
 
         if (!TextUtils.isEmpty(sharedPreferences!!.getString("email", "")) && !TextUtils.isEmpty(sharedPreferences!!.getString("password", ""))
                 && sharedPreferences!!.getBoolean("loged", false)) {
@@ -28,6 +35,7 @@ class SplashActivity : AppCompatActivity() {
         } else {
             startActivity(intentLogin)
         }
+
         finish()
 
     }

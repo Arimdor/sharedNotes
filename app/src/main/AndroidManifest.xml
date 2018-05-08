@@ -30,6 +30,17 @@
         <activity android:name=".ui.book.BookActivity" />
         <activity android:name=".ui.content.ContentActivity" />
 
+        <service android:name=".app.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".app.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.arimdor.android.fileprovider"

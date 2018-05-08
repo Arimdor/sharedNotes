@@ -23,7 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:contentDescription="Logo"
-            android:src="@drawable/logo_app" />
+            android:src="@drawable/logo_app_login" />
 
         <!-- Email Label -->
         <EditText

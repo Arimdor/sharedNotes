@@ -22,5 +22,5 @@
         app:layout_constraintTop_toTopOf="parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:focusedByDefault="true"/>
+        android:focusedByDefault="true" />
 </android.support.constraint.ConstraintLayout>

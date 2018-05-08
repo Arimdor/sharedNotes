@@ -27,7 +27,7 @@ class BookDao {
 
     fun findBookByTitle(title: String): MutableList<Book> {
         var books: MutableList<Book>;
-        books = realm.where(Book::class.java).contains("title",title, Case.INSENSITIVE).findAll()
+        books = realm.where(Book::class.java).contains("title", title, Case.INSENSITIVE).findAll()
         return books
     }
 

@@ -6,11 +6,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.widget.*
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.ui.book.BookActivity
 import com.arimdor.sharednotes.ui.userRegister.RegisterActivity
+import com.google.firebase.iid.FirebaseInstanceId
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,6 +42,9 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
+        Log.d("amd", FirebaseInstanceId.getInstance().token)
+
     }
 
     private fun checkCredentialStored(): Boolean {

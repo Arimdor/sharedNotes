@@ -59,7 +59,7 @@ class BookFragment : Fragment() {
             recyclerView.scheduleLayoutAnimation()
         })
 
-        txtfindBook.addTextChangedListener(object :TextWatcher {
+        txtfindBook.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
