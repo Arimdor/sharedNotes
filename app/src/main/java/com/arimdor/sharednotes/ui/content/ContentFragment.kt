@@ -41,13 +41,13 @@ class ContentFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var txtNoteTitleNote: TextView
     private lateinit var idSection: String
-    private lateinit var viewModel: ContentViewModel
+    private val viewModel by lazy { ViewModelProviders.of(this).get(ContentViewModel::class.java) }
     private val contents: MutableList<Content> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_content, container, false)
 
-        viewModel = ViewModelProviders.of(this).get(ContentViewModel::class.java)
+
         sharedPreferences = activity!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         idSection = activity?.intent!!.getStringExtra("idNote")
@@ -68,19 +68,19 @@ class ContentFragment : Fragment() {
             dispatchTakePictureIntent()
         }
 
-        setupRecyclerNote()
-
         viewModel.idSection = idSection
-        viewModel.loadCotents()
+        viewModel.loadCotents(idSection)
         viewModel.getContents().observe(this, Observer { contents ->
             if (contents != null) {
                 Log.d("test", "observe")
                 this.contents.clear()
-                this.contents.addAll(0, contents!!)
+                this.contents.addAll(0, contents)
                 contentAdapter.notifyDataSetChanged()
                 recyclerView.scheduleLayoutAnimation()
             }
         })
+
+        setupRecyclerNote()
 
         Log.d("test", "Bundle = ${savedInstanceState.toString()}")
         val tempphotoUri = savedInstanceState?.getString("photoUri")

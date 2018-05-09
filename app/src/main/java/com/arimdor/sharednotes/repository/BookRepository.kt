@@ -44,11 +44,11 @@ class BookRepository {
     }
 
     fun searchAllBooks(): MutableLiveData<List<Book>> {
-        books.value = bookDao.findAllBooks()
         val call = sharedNotesAPI.getAllBooks()
         call.enqueue(object : Callback<ResponseModel<List<Book>>> {
             override fun onFailure(call: Call<ResponseModel<List<Book>>>?, t: Throwable?) {
                 Log.d("test", "Error " + t?.message.toString())
+                books.value = bookDao.findAllBooks()
             }
 
             override fun onResponse(call: Call<ResponseModel<List<Book>>>?, response: Response<ResponseModel<List<Book>>>?) {

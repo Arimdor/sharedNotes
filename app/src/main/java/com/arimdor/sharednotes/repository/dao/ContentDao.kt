@@ -13,8 +13,8 @@ class ContentDao {
         return try {
             val section = realm.where(Note::class.java).equalTo("id", idNote).findFirst()
             realm.beginTransaction()
-            realm.copyToRealm(section)
-            section!!.contents.add(content)
+            realm.copyToRealmOrUpdate(section!!)
+            section.contents.add(content)
             realm.commitTransaction()
             true
         } catch (e: Exception) {

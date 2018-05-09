@@ -3,7 +3,9 @@ package com.arimdor.sharednotes.repository
 import android.arch.lifecycle.MutableLiveData
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.ExifInterface
 import android.util.Log
+import android.webkit.MimeTypeMap
 import com.arimdor.sharednotes.repository.dao.ContentDao
 import com.arimdor.sharednotes.repository.entity.Content
 import com.arimdor.sharednotes.repository.model.ResponseModel
@@ -13,6 +15,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,9 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
-import okhttp3.logging.HttpLoggingInterceptor
-
-
 
 
 class ContentRepository {
@@ -67,11 +67,19 @@ class ContentRepository {
             })
         } else if (type == Constants.TYPE_MULTIMEDIA) {
             val file = File(content)
+
+            val ei = ExifInterface(content)
+            val o = ei.getAttributeInt (ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
             val bitmap = BitmapFactory.decodeFile(file.path)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, FileOutputStream(file))
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 65, FileOutputStream(file))
             Log.d("test", "Note id $idNote image url ${file.totalSpace}")
 
-            val requestFile = RequestBody.create(MediaType.parse("*/*"), file)
+            val ei2 = ExifInterface(content)
+            ei2.setAttribute(ExifInterface.TAG_ORIENTATION, o.toString())
+            ei2.saveAttributes()
+
+            val requestFile = RequestBody.create(MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(file.extension)), file)
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             val call = sharedNotesAPI.addContentMultimedia(body, idNote, "Arimdor")
@@ -100,25 +108,27 @@ class ContentRepository {
 
     fun searchAllContents(idNote: String): MutableLiveData<List<Content>> {
         Log.d("test", "idNote = $idNote")
+        contents.value = null
         val call = sharedNotesAPI.getContentsByNote(idNote)
         call.enqueue(object : Callback<ResponseModel<List<Content>>> {
             override fun onFailure(call: Call<ResponseModel<List<Content>>>?, t: Throwable?) {
+                contents.value = contentDao.findAllContent(idNote)
                 Log.d("test", "Error " + t?.message.toString())
             }
 
             override fun onResponse(call: Call<ResponseModel<List<Content>>>?, response: Response<ResponseModel<List<Content>>>?) {
-                Log.d("test", "OK Response " + response?.body().toString())
                 if (response != null) {
+                    Log.d("test", "OK Response " + response.body().toString())
+                    contentDao.removeAllContents(idNote)
                     response.body()?.data?.forEach {
                         contentDao.insertContent(it, idNote)
                     }
                 } else {
                     Log.d("test", "Null in onResponse")
                 }
+                contents.value = contentDao.findAllContent(idNote)
             }
-
         })
-        contents.value = contentDao.findAllContent(idNote)
         return contents
     }
 

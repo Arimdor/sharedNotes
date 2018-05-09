@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: 'realm-android'
-apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 27
@@ -11,8 +10,8 @@ android {
         applicationId "com.arimdor.sharednotes"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 9
-        versionName "0.85"
+        versionCode 10
+        versionName "0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,6 +25,7 @@ android {
     }
 }
 
+/*
 configurations.all { config ->
     if (config.name.contains('UnitTest')) {
         config.resolutionStrategy.eachDependency { details ->
@@ -35,6 +35,7 @@ configurations.all { config ->
         }
     }
 }
+*/
 
 dependencies {
     // Google Support - Kotlin
@@ -51,10 +52,9 @@ dependencies {
     // Google FireBase
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
     implementation 'com.google.firebase:firebase-core:15.0.2'
-    implementation 'com.google.firebase:firebase-perf:15.2.0'
 
     // Gson
-    compile 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -74,8 +74,8 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 
     // LeakCanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    //releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     // Testing
     testImplementation 'junit:junit:4.12'

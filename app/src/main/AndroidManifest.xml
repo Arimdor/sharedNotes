@@ -53,7 +53,7 @@
         </provider>
 
         <activity android:name=".ui.photo.PhotoActivity" />
-        <activity android:name=".ui.userRegister.RegisterActivity"></activity>
+        <activity android:name=".ui.userRegister.RegisterActivity" />
     </application>
 
 </manifest>
