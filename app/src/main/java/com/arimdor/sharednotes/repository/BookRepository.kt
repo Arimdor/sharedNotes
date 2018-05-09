@@ -33,9 +33,13 @@ class BookRepository {
 
             override fun onResponse(call: Call<ResponseModel<Book>>?, response: Response<ResponseModel<Book>>?) {
                 if (response != null) {
-                    Log.d("test", "OK " + response.body()?.data.toString())
-                    bookDao.insertBook(response.body()!!.data)
-                    books.value = bookDao.findAllBooks()
+                    if (response.isSuccessful){
+                        Log.d("test", "OK " + response.body()?.data.toString())
+                        bookDao.insertBook(response.body()!!.data)
+                        books.value = bookDao.findAllBooks()
+                    }else {
+                        Log.d("test", "Response Error")
+                    }
                 } else {
                     Log.d("test", "Null in onResponse")
                 }

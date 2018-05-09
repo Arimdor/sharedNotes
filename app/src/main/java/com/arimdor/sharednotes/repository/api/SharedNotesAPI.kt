@@ -4,8 +4,8 @@ import com.arimdor.sharednotes.repository.entity.Book
 import com.arimdor.sharednotes.repository.entity.Content
 import com.arimdor.sharednotes.repository.entity.Note
 import com.arimdor.sharednotes.repository.model.ResponseModel
+import com.arimdor.sharednotes.repository.model.User
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -42,5 +42,10 @@ interface SharedNotesAPI {
 
     @GET("contents")
     fun getContentsByNote(@Query("note_id") noteID: String): Call<ResponseModel<List<Content>>>
+
+
+    @FormUrlEncoded
+    @POST("users")
+    fun login(@Field("token") token: String, @Field("nickname") nickname: String): Call<ResponseModel<User>>
 
 }

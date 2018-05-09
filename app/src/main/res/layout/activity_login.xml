@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="56dp">
+        android:paddingTop="70dp">
 
         <!-- Logo Label -->
         <ImageView
@@ -36,21 +36,10 @@
             android:inputType="textEmailAddress"
             android:nextFocusDown="@+id/input_password"
             android:nextFocusUp="@+id/linear_layoud_login"
-            android:text="rodrigo.120894@gmal.com"
+            android:text="Anónimo"
             android:textSize="16sp" />
 
         <!-- Password Label -->
-        <EditText
-            android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:nextFocusDown="@+id/btn_login"
-            android:text="password"
-            android:textSize="16sp" />
 
         <Switch
             android:id="@+id/switchRemember"
