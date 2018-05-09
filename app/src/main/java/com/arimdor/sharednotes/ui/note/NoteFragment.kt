@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.EditText
@@ -47,9 +48,12 @@ class NoteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         recyclerView = view.findViewById(R.id.recyclerViewNote)
         mSwipeRefreshLayout = view.findViewById(R.id.noteSwipeRefreshLayout)
 
-        viewModel.getNotes().observe(this, Observer { sections ->
+        viewModel.getNotes().observe(this, Observer { notes ->
             this.notes.clear()
-            this.notes.addAll(0, sections!!)
+            notes?.forEach {
+                Log.d("test", it.toString())
+            }
+            this.notes.addAll(0, notes!!)
             noteAdapter.notifyDataSetChanged()
             recyclerView.scheduleLayoutAnimation()
             mSwipeRefreshLayout.isRefreshing = false
@@ -141,17 +145,20 @@ class NoteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         builder.setPositiveButton("Aceptar") { dialog, which ->
             val titleNote = input.text.toString().trim { it <= ' ' }
             if (titleNote.isNotEmpty()) {
-                val note = viewModel.createNote(titleNote, idBook)
-                if (note != null) {
-                    val intent = Intent(context, ContentActivity::class.java)
-                    intent.putExtra("idSection", note.id)
-                    intent.putExtra("titleSection", titleNote)
-                    intent.putExtra("titleBook", titleBook)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(context, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
+                val noteLive = viewModel.createNote(titleNote, "Arimdor", idBook)
+                noteLive.observe(this, Observer {
+                    if (it != null) {
+                        val intent = Intent(context, ContentActivity::class.java)
+                        Log.d("test", "Intent idNote " + it.toString())
+                        intent.putExtra("idNote", it.id)
+                        intent.putExtra("titleNote", titleNote)
+                        intent.putExtra("titleBook", titleBook)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(context, "No se pudo crear la nota", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                })
             } else {
                 Toast.makeText(context, "Se requiere un título para la nota", Toast.LENGTH_SHORT).show()
             }

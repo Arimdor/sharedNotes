@@ -9,10 +9,11 @@ class BookDao {
 
     private val realm = MyApplication.realm
 
-    fun insertBook(title: String): Boolean {
+    fun insertBook(book: Book): Boolean {
         return try {
+            Log.d("test", "book: " + book.toString())
             realm.beginTransaction()
-            realm.copyToRealm(Book(title))
+            realm.copyToRealmOrUpdate(book)
             realm.commitTransaction()
             true
         } catch (e: Exception) {
@@ -26,7 +27,7 @@ class BookDao {
     }
 
     fun findBookByTitle(title: String): MutableList<Book> {
-        var books: MutableList<Book>;
+        val books: MutableList<Book>;
         books = realm.where(Book::class.java).contains("title", title, Case.INSENSITIVE).findAll()
         return books
     }
@@ -42,6 +43,12 @@ class BookDao {
         realm.beginTransaction()
         val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
         book?.deleteFromRealm()
+        realm.commitTransaction()
+    }
+
+    fun deleteAllBook() {
+        realm.beginTransaction()
+        realm.deleteAll()
         realm.commitTransaction()
     }
 }

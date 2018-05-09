@@ -24,6 +24,20 @@ class NoteDao {
         }
     }
 
+    fun insertNote(note: Note, idBook: String): Note? {
+        return try {
+            val book = realm.where(Book::class.java).equalTo("id", idBook).findFirst()
+            realm.beginTransaction()
+            realm.copyToRealmOrUpdate(note)
+            book!!.notes.add(note)
+            realm.commitTransaction()
+            note
+        } catch (e: Exception) {
+            Log.e("test", e.message)
+            null
+        }
+    }
+
     fun findNoteByID(idNote: String): Note? {
         return realm.where(Note::class.java).equalTo("id", idNote).findFirst()
     }

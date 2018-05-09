@@ -9,13 +9,12 @@ class ContentDao {
 
     private val realm = MyApplication.realm
 
-    fun insertNote(content: String, idSection: String, type: Int = 0): Boolean {
+    fun insertContent(content: Content, idNote: String): Boolean {
         return try {
-            val section = realm.where(Note::class.java).equalTo("id", idSection).findFirst()
-            val note = Content(content, type)
+            val section = realm.where(Note::class.java).equalTo("id", idNote).findFirst()
             realm.beginTransaction()
             realm.copyToRealm(section)
-            section!!.contents.add(note)
+            section!!.contents.add(content)
             realm.commitTransaction()
             true
         } catch (e: Exception) {
@@ -24,7 +23,7 @@ class ContentDao {
         }
     }
 
-    fun findAllNotes(idSection: String): MutableList<Content> {
+    fun findAllContent(idSection: String): MutableList<Content> {
         val section = realm.where(Note::class.java).equalTo("id", idSection).findFirst()
         return section!!.contents
     }

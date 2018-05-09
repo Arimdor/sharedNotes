@@ -27,7 +27,7 @@ class BookAdapter(
 ) : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
     private var lastPosition = -1
-    private val dateFormat = SimpleDateFormat("dd/MM/yyy", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("E hh::mm a", Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_view_book_item, parent, false)
@@ -41,7 +41,7 @@ class BookAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lblTitle.text = books[position].title
         holder.lblCountNotes.text = "${books[position].notes.size} Notes"
-        holder.lblDate.text = dateFormat.format(books[position].creationDate)
+        holder.lblDate.text = dateFormat.format(books[position].updatedAt)
 
         if (position > lastPosition) {
             val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_scrolling)

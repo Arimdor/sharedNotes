@@ -8,17 +8,21 @@ import io.realm.annotations.Required
 import java.util.*
 
 open class Book(
+        @PrimaryKey
         @Required
-        var title: String = "Sin Titulo"
+        var id: String = "",
+        @Required
+        var title: String = "",
+        @Required
+        var createdBy: String = "",
+        var notes: RealmList<Note> = RealmList(),
+        @Required
+        var createdAt: Date? = null,
+        var updatedAt: Date? = null
 
 ) : RealmObject(), RealmModel {
-    @PrimaryKey
-    var id: String = UUID.randomUUID().toString()
-
-    var notes: RealmList<Note> = RealmList()
-
-    @Required
-    var creationDate: Date = Date()
-
+    override fun toString(): String {
+        return "Book(id='$id', title='$title', createdBy='$createdBy', notes=$notes, createdAt=$createdAt, updatedAt=$updatedAt)"
+    }
 }
 

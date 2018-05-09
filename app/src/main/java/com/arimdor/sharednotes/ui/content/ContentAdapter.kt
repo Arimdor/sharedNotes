@@ -32,14 +32,14 @@ class ContentAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var lastPosition = -1
-    private val dateFormat = SimpleDateFormat("dd/MM/yyy", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("E hh::mm a", Locale.getDefault())
 
     override fun getItemViewType(position: Int): Int {
         return contents[position].type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == Constants.TYPE_IMAGE) {
+        return if (viewType == Constants.TYPE_MULTIMEDIA) {
             ContentAdapter.ViewHolderPhoto(LayoutInflater.from(parent.context).inflate(R.layout.list_view_content_item_photo, parent, false))
         } else {
             ContentAdapter.ViewHolderText(LayoutInflater.from(parent.context).inflate(R.layout.list_view_content_item_text, parent, false))
@@ -55,7 +55,7 @@ class ContentAdapter(
             Constants.TYPE_TEXT -> {
                 initHolderText(holder as ContentAdapter.ViewHolderText, position)
             }
-            Constants.TYPE_IMAGE -> {
+            Constants.TYPE_MULTIMEDIA -> {
                 initHolderPhoto(holder as ContentAdapter.ViewHolderPhoto, position)
             }
         }
@@ -69,7 +69,7 @@ class ContentAdapter(
 
     private fun initHolderText(holder: ContentAdapter.ViewHolderText, position: Int) {
         holder.lblContent.text = contents[position].content
-        holder.lblContentDate.text = dateFormat.format(contents[position].creationDate)
+        holder.lblContentDate.text = dateFormat.format(contents[position].updatedAt)
         holder.bindEventToItem(contents[position], viewModel)
     }
 
@@ -78,7 +78,7 @@ class ContentAdapter(
                 .load(contents[position].content)
                 .apply(RequestOptions().transforms(CenterCrop()))
                 .into(holder.imgPhoto)
-        holder.lblPhotoDate.text = dateFormat.format(contents[position].creationDate)
+        holder.lblPhotoDate.text = dateFormat.format(contents[position].updatedAt)
         holder.bindEventToItem(contents[position])
         Log.d("test", contents[position].content)
     }

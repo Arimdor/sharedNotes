@@ -3,27 +3,31 @@ package com.arimdor.sharednotes.ui.content
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.arimdor.sharednotes.repository.ContentRepository
 import com.arimdor.sharednotes.repository.entity.Content
 
 class ContentViewModel : ViewModel() {
 
-    private val contentRepository = ContentRepository()
-    private val notes = MutableLiveData<List<Content>>()
+    private var contentRepository = ContentRepository()
+    private var contents = MutableLiveData<List<Content>>()
     var photoUri: String = ""
     var idSection = ""
 
     fun getContents(): LiveData<List<Content>> {
-        return notes
+        return contents
     }
 
     fun loadCotents(idSection: String = this.idSection) {
-        notes.value = contentRepository.searchAllNotes(idSection)
+        Log.d("test", "loading Contents id = $idSection")
+        if (!idSection.isEmpty()) {
+            contents = contentRepository.searchAllContents(idSection)
+        }
     }
 
     fun addContent(content: String, idSection: String, type: Int = 0) {
-        contentRepository.createNote(content, idSection, type)
-        loadCotents(idSection)
+        contentRepository.createContent(content, idSection, type)
+        loadCotents()
     }
 
     fun updateContent(idContent: String, contentValue: String) {
@@ -37,7 +41,7 @@ class ContentViewModel : ViewModel() {
     }
 
     fun removeAllContents(idSection: String) {
-        contentRepository.deleteAllNotes(idSection)
+        contentRepository.deleteAllContents(idSection)
         loadCotents(this.idSection)
     }
 }

@@ -21,8 +21,8 @@ class NoteViewModel : ViewModel() {
         notes.value = noteRepository.searchAllNotes(idBook)
     }
 
-    fun createNote(title: String, idBook: String): Note? {
-        val note = noteRepository.createNote(title, idBook)
+    fun createNote(title: String, createdBy: String, idBook: String): MutableLiveData<Note> {
+        val note = noteRepository.createNote(title, createdBy, idBook)
         loadNotes(idBook)
         return note
     }
@@ -55,7 +55,7 @@ class NoteViewModel : ViewModel() {
     fun generateResumeImage(note: Note): String {
         var uri: String = ""
         for (content in note.contents) {
-            if (content.type == Constants.TYPE_IMAGE) {
+            if (content.type == Constants.TYPE_MULTIMEDIA) {
                 uri = content.content
                 break
             }

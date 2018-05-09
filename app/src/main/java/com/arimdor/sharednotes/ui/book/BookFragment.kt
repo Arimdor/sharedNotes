@@ -25,6 +25,7 @@ import android.widget.Toast
 import com.arimdor.sharednotes.R
 import com.arimdor.sharednotes.repository.entity.Book
 import com.arimdor.sharednotes.ui.login.LoginActivity
+import com.arimdor.sharednotes.utils.InternetUtil
 
 
 class BookFragment : Fragment() {
@@ -36,6 +37,7 @@ class BookFragment : Fragment() {
     private val viewModel by lazy { ViewModelProviders.of(this).get(BookViewModel::class.java) }
     private var books: MutableList<Book> = ArrayList()
     private lateinit var sharedPreferences: SharedPreferences
+    private var loads = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_book, container, false)
@@ -46,17 +48,25 @@ class BookFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewBook)
         fbtnAddBook = view.findViewById(R.id.fbtnAddBook)
         txtfindBook = view.findViewById(R.id.txtSearchBook)
-
+        val context = activity
 
         fbtnAddBook.setOnClickListener {
-            showAlertDialog("Agregar nueva libreta", "Agrega un título a la libreta")
+            if (InternetUtil.isOnline(context!!))
+                showAlertDialog("Agregar nueva libreta", "Agrega un título a la libreta")
+            else
+                Toast.makeText(activity, "No se puede realizar la opración sin acceso a internet.", Toast.LENGTH_SHORT).show()
         }
 
         viewModel.getBooks().observe(this, Observer { books ->
-            this.books.clear()
-            this.books.addAll(0, books!!)
-            bookAdapter.notifyDataSetChanged()
-            recyclerView.scheduleLayoutAnimation()
+            if (books != null) {
+                this.books.clear()
+                this.books.addAll(0, books)
+                bookAdapter.notifyDataSetChanged()
+                if (loads > 1) {
+                    recyclerView.scheduleLayoutAnimation()
+                }
+                loads++
+            }
         })
 
         txtfindBook.addTextChangedListener(object : TextWatcher {
@@ -103,6 +113,7 @@ class BookFragment : Fragment() {
         when (item.itemId) {
 
             R.id.update_all -> {
+                loads = 1
                 viewModel.loadBooks()
                 return true
             }

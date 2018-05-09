@@ -50,7 +50,8 @@ class ContentFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ContentViewModel::class.java)
         sharedPreferences = activity!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
-        idSection = activity?.intent!!.getStringExtra("idSection")
+        idSection = activity?.intent!!.getStringExtra("idNote")
+        Log.d("test", "Intent id note" + activity?.intent!!.getStringExtra("idNote"))
         activity?.title = activity?.intent!!.getStringExtra("titleBook")
 
         txtNoteTitleNote = view.findViewById(R.id.txtSectionTitleNote)
@@ -58,7 +59,7 @@ class ContentFragment : Fragment() {
         fbtnAddContentPhoto = view.findViewById(R.id.fbtnAddContentPhoto)
         recyclerView = view.findViewById(R.id.recyclerViewContent)
 
-        txtNoteTitleNote.text = activity?.intent!!.getStringExtra("titleSection")
+        txtNoteTitleNote.text = activity?.intent!!.getStringExtra("titleNote")
 
         fbtnAddContent.setOnClickListener {
             showAlertDialog("Agregar nueva nota", "Agrega un contenido a la nota", idSection)
@@ -71,12 +72,14 @@ class ContentFragment : Fragment() {
 
         viewModel.idSection = idSection
         viewModel.loadCotents()
-        viewModel.getContents().observe(this, Observer { notes ->
-            Log.d("test", notes?.size.toString())
-            this.contents.clear()
-            this.contents.addAll(0, notes!!)
-            contentAdapter.notifyDataSetChanged()
-            recyclerView.scheduleLayoutAnimation()
+        viewModel.getContents().observe(this, Observer { contents ->
+            if (contents != null) {
+                Log.d("test", "observe")
+                this.contents.clear()
+                this.contents.addAll(0, contents!!)
+                contentAdapter.notifyDataSetChanged()
+                recyclerView.scheduleLayoutAnimation()
+            }
         })
 
         Log.d("test", "Bundle = ${savedInstanceState.toString()}")
@@ -124,7 +127,7 @@ class ContentFragment : Fragment() {
                 viewModel.photoUri = MyApplication.photoUri
                 MyApplication.photoUri = ""
             }
-            viewModel.addContent(viewModel.photoUri, idSection, Constants.TYPE_IMAGE)
+            viewModel.addContent(viewModel.photoUri, idSection, Constants.TYPE_MULTIMEDIA)
             viewModel.photoUri = ""
         } else Toast.makeText(context, "No se pudo guardar la foto :(", Toast.LENGTH_SHORT).show()
         super.onActivityResult(requestCode, resultCode, data)

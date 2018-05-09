@@ -43,7 +43,8 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        Log.d("amd", FirebaseInstanceId.getInstance().token)
+        if (!FirebaseInstanceId.getInstance().token.isNullOrBlank())
+            Log.d("amd", FirebaseInstanceId.getInstance().token)
 
     }
 

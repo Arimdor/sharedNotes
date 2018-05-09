@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class NoteAdapter(
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     private var lastPosition = -1
-    private val dateFormat = SimpleDateFormat("dd/MM/yyy", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("E hh::mm a", Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_view_note_item, parent, false)
@@ -43,7 +44,7 @@ class NoteAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lblTitle.text = notes[position].title
-        holder.lblDate.text = dateFormat.format(notes[position].creationDate)
+        holder.lblDate.text = dateFormat.format(notes[position].updatedAt)
         holder.lblResumen.text = viewModel.generateResumeText(notes[position])
 
         val uri = viewModel.generateResumeImage(notes[position])
@@ -78,8 +79,9 @@ class NoteAdapter(
 
             itemView.setOnClickListener {
                 val intent = Intent(it.context, ContentActivity::class.java)
-                intent.putExtra("idSection", note.id)
-                intent.putExtra("titleSection", note.title)
+                Log.d("test","adapter note id = ${note.id}")
+                intent.putExtra("idNote", note.id)
+                intent.putExtra("titleNote", note.title)
                 intent.putExtra("titleBook", titleBook)
                 it.context.startActivity(intent)
             }

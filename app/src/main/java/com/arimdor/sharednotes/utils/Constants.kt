@@ -2,8 +2,9 @@ package com.arimdor.sharednotes.utils
 
 class Constants {
     companion object {
-        val TYPE_TEXT = 0
-        val TYPE_IMAGE = 1
-        val REQUEST_IMAGE_CAPTURE = 1
+        const val BASE_URL = "http://192.168.1.50:8080/api/"
+        const val TYPE_TEXT = 0
+        const val TYPE_MULTIMEDIA = 1
+        const val REQUEST_IMAGE_CAPTURE = 1
     }
 }
